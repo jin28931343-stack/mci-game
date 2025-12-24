@@ -1,0 +1,174 @@
+/* src/App.css - 修正版 */
+
+/* --- 1. 開頭動畫容器 (最外層) --- */
+#intro-app-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background-color: #000;
+    z-index: 99999;
+    font-family: 'DotGothic16', sans-serif;
+}
+
+/* --- 2. 動畫層 (包含背景圖與車子) --- */
+#intro-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    background: linear-gradient(to bottom, #111 0%, #332 100%);
+}
+
+/* --- 3. 背景廢墟圖片 (關鍵修正：強制滿版) --- */
+.ruins-bg {
+    position: absolute;
+    top: 0;           /* 修正：原本是 bottom:0，改為 top:0 確保填滿 */
+    left: 0;
+    width: 100%;
+    height: 100%;     /* 修正：強制高度 100% */
+    object-fit: cover; /* 保持比例填滿，不會變形 */
+    z-index: 1;
+    opacity: 1 !important; /* 強制不透明 */
+    display: block !important; /* 防止被意外隱藏 */
+}
+
+/* --- 4. 標題容器 (關鍵修正：寬度與置中) --- */
+#title-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 30;
+    opacity: 0;
+    width: 100%; /* 確保寬度佔滿，文字才不會被擠成直線 */
+    display: flex;       /* 新增：使用 Flex 確保內容居中 */
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none; /* 預設不擋滑鼠，按鈕出現後會覆蓋此設定 */
+}
+
+.main-title {
+    font-family: 'Press Start 2P', cursive;
+    font-size: clamp(1.5rem, 5vw, 3rem); /* 響應式字體大小 */
+    color: #ffd700;
+    text-shadow: 4px 4px 0 #000;
+    margin-bottom: 40px;
+    letter-spacing: 2px;
+    line-height: 1.5;
+    text-transform: uppercase;
+    width: 90%; /* 限制最大寬度，避免貼邊 */
+    max-width: 800px;
+}
+
+/* --- 5. 開始按鈕 --- */
+.start-btn {
+    background-color: #000000;
+    color: rgb(255, 213, 0);
+    border: 4px solid #fff;
+    padding: 15px 30px;
+    font-family: 'DotGothic16', sans-serif;
+    font-size: 1.5rem;
+    cursor: pointer;
+    box-shadow: 4px 4px 0 #000;
+    transition: transform 0.1s;
+    animation: pulse 1.5s infinite;
+    pointer-events: auto; /* 確保按鈕可點擊 */
+}
+
+.start-btn:active {
+    transform: translate(4px, 4px);
+    box-shadow: 0 0 0 #000;
+}
+
+/* --- 6. 其他動畫元素 --- */
+.smoke {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: #555;
+    box-shadow: 10px -10px 0 #444, 20px 0 0 #666;
+    opacity: 0.6;
+    animation: floatUp 4s infinite linear;
+    z-index: 2;
+}
+
+@keyframes floatUp {
+    0% { transform: translateY(0) scale(1); opacity: 0.6; }
+    100% { transform: translateY(-100px) scale(2); opacity: 0; }
+}
+
+.road {
+    position: absolute;
+    bottom: 5%;
+    width: 100%;
+    height: 60px;
+    z-index: 5;
+}
+
+.vehicle {
+    position: absolute;
+    bottom: 0;
+    left: 100%;
+    filter: drop-shadow(4px 4px 0px rgba(0, 0, 0, 0.5));
+    height: auto;
+    object-fit: contain;
+}
+
+#police { width: 140px; z-index: 12; }
+#ambulance { width: 180px; z-index: 11; }
+#fire { width: 240px; z-index: 10; }
+
+.siren-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 20; pointer-events: none; opacity: 0;
+    mix-blend-mode: overlay;
+}
+
+#transition-overlay {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background-color: black; z-index: 50; opacity: 0; pointer-events: none;
+}
+
+/* --- 7. 點擊提示 --- */
+.click-hint {
+    position: absolute;
+    bottom: 15%;
+    width: 100%;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.8);
+    font-family: 'DotGothic16', sans-serif;
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+    animation: blink 1.5s infinite;
+    z-index: 60;
+    pointer-events: none;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+@keyframes driveBy {
+    0% { left: 100%; transform: scaleX(1); }
+    40% { left: 40%; transform: scaleX(1) skewX(10deg); }
+    100% { left: -20%; transform: scaleX(1); }
+}
+@keyframes sirenFlash {
+    0% { background-color: rgba(255, 0, 0, 0.4); opacity: 0.6; }
+    50% { background-color: rgba(0, 0, 255, 0.4); opacity: 0.6; }
+    100% { background-color: rgba(255, 0, 0, 0.4); opacity: 0.6; }
+}
+.shake { animation: shake 0.5s cubic-bezier(.36, .07, .19, .97) both; }
+@keyframes shake {
+    10%, 90% { transform: translate3d(-1px, 0, 0); }
+    20%, 80% { transform: translate3d(2px, 0, 0); }
+    30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+    40%, 60% { transform: translate3d(4px, 0, 0); }
+}
+@keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
