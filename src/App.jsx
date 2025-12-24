@@ -429,7 +429,7 @@ function App() {
             });
 
             const items = [
-                { name: "無線電", color: "#34495e", type: "radio", imgSrc: "PIC/Radio_1.png" },        // 1
+                { name: "無線電", color: "#34495e", type: "radio", imgSrc: "PIC/game_radio.png" },        // 1
                 { name: "檢傷平板", color: "#9b59b6", type: "tablet", imgSrc: "PIC/tablet.png" },       // 2
                 { name: "檢傷地墊", color: "#27ae60", type: "mat", imgSrc: "PIC/mat.png" },          // 3
                 { name: "指揮站", color: "#ffffff", type: "command_post", imgSrc: "PIC/command_post.png" }, // 4
